@@ -1,21 +1,25 @@
 <template>
     <div>
+        <NavBar @searchTermUpdated="setSearchTerm"/>
         <h1>Movies</h1>
-        <movie-row :movies="movies"/>
+        <movie-row  v-for="(movie, key) in filteredMovies" :key="key" :movie="movie"/>
     </div>
 </template>
 
 <script>
-import MovieRow from '../components/MovieRow'
-import { movies } from '../services/Movies'
+import NavBar from './NavBar'
+import MovieRow from './MovieRow'
+import { movies } from './../services/Movies'
 
 export default {
     components: {
-        MovieRow
+        MovieRow,
+        NavBar
     },
     data() {
         return {
-            movies: []
+            movies: [],
+            term: ''
         }
     },
 
@@ -27,6 +31,18 @@ export default {
                 })
             })
     },
+
+    methods: {
+        setSearchTerm(term) {
+            this.term = term
+        }
+    },
+
+    computed: {
+        filteredMovies() {
+            return this.movies.filter(movie => movie.title.toLowerCase().indexOf(this.term.toLowerCase()) >= 0);
+        }
+    }
 }
 </script>
 
