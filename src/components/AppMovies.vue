@@ -3,6 +3,9 @@
         <NavBar @searchTermUpdated="setSearchTerm"/>
         <h1>Movies</h1>
         <movie-row  v-for="(movie, key) in filteredMovies" :key="key" :movie="movie"/>
+        <div class="alert alert-warning" v-if="filteredMovies.length === 0">
+            <p>{{ alert }}</p>
+        </div>
     </div>
 </template>
 
@@ -19,7 +22,8 @@ export default {
     data() {
         return {
             movies: [],
-            term: ''
+            term: '',
+            alert: 'No movies to show!'
         }
     },
 
